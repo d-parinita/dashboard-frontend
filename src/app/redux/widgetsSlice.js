@@ -30,16 +30,16 @@ const initialState = {
       category: "CSPM Executive Dashboard",
       displayName: 'CSPM',
       graphs: [
-        { type: "piechart", title: "Cloud Account Risk Assessment", data: dataPieGraph },
-        { type: "bargraph", title: "Image Risk Assessment", data: dataBargraph },
+        { type: "piechart", title: "Cloud Accounts", data: dataPieGraph },
+        { type: "bargraph", title: "Cloud Account Risk Assessment", data: dataBargraph },
       ],
     },
     {
       category: "CWPP Dashboard",
       displayName: 'CWPP',
       graphs: [
-        { type: "linegraph", title: "Weekly Activity", data: dataLineGraph },
-        { type: "piechart", title: "Cloud Account Risk Assessment", data: dataPieGraph },
+        { type: "linegraph", title: "Top 5 Namespace Specific Alerts", data: dataLineGraph },
+        { type: "piechart", title: "Workload Alerts", data: dataPieGraph },
       ],
     },
     {
@@ -47,7 +47,7 @@ const initialState = {
       displayName: 'Registry',
       graphs: [
         { type: "bargraph", title: "Image Risk Assessment", data: dataBargraph },
-        { type: "bargraph", title: "Top 5 Namespace Specific Alerts", data: dataBargraph },
+        { type: "linegraph", title: "Image Security Issues", data: dataLineGraph },
       ],
     },
   ],
