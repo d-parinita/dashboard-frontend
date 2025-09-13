@@ -5,29 +5,36 @@ import { Bell, ChevronDown, Search } from "lucide-react"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import React, { useEffect, useState } from "react"
 import { ModeToggle } from "../ModeToggle"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { setSearchResults } from "@/app/redux/widgetsSlice"
 
 export default function Navbar() {
 
+  const dispatch = useDispatch();
   const categories = useSelector((state) => state.widgets.categories);
   const [searchedWidget, setSearchedWidget] = useState('')
 
+  const handleSearchWidget = () => {
+    if (searchedWidget.trim() === '') {
+      dispatch(setSearchResults([])); 
+      return;
+    }
+
+    const newSearch = [];
+    for (let i = 0; i < categories?.length; i++) {
+      const search = categories[i]?.graphs?.filter(graph =>
+        graph.title.toLowerCase().includes(searchedWidget.toLowerCase())
+      );
+      if (search?.length > 0) {
+        newSearch.push(...search);
+      }
+    }
+    dispatch(setSearchResults(newSearch));
+  }
+
   useEffect(() => {
-    // console.log(searchedWidget);
-    // console.log(categories);
     handleSearchWidget()
   }, [searchedWidget])
-
-  const handleSearchWidget = () => {
-    
-    for (let i = 0; i < categories?.length; i++) {
-      if (searchedWidget != '') {
-        const search = categories?.graphs?.filter(graph => graph == searchedWidget)
-        console.log(search);
-      }
-      
-    }
-  }
 
   return (
     <div className="w-full fixed z-50 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-10 py-2 flex items-center justify-between">

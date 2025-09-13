@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Plus, RotateCcw, MoreVertical, Clock } from "lucide-react"
 import Navbar from '../Components/Navbar'
@@ -7,11 +7,15 @@ import Categories from '../Components/Categories'
 import AddWidget from '../Components/AddWidget'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeWidget } from '../redux/widgetsSlice'
+import PieChartGraph from '../Components/PieChartGraph'
+import LineGraph from '../Components/LineGraph'
+import HorizontalBargraph from '../Components/HorizontalBargraph'
 
 export default function Page() {
 
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.widgets.categories);
+  const searchResults = useSelector((state) => state.widgets.searchResults);
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
 
@@ -28,6 +32,19 @@ export default function Page() {
     setSelectedCategory(category)
     setOpen(true)
   }
+
+  const renderGraph = (graph, graphIndex) => {
+    switch (graph.type) {
+      case "piechart":
+        return <PieChartGraph key={graphIndex} data={graph.data} title={graph.title} />;
+      case "linegraph":
+        return <LineGraph key={graphIndex} data={graph.data} title={graph.title} />;
+      case "bargraph":
+        return <HorizontalBargraph key={graphIndex} data={graph.data} title={graph.title} />;
+      default:
+        return null;
+    }
+  };
 
   return (
     <>
@@ -53,11 +70,17 @@ export default function Page() {
           </div>
         </div>
 
-        <Categories 
-          categories={categories} 
-          handleRemoveWidget={(categoryIndex, graphIndex) => handleRemoveWidget(categoryIndex, graphIndex)}
-          handleOpenDrawer={(categoryName) => handleOpenDrawer(categoryName)}
-        />
+        {searchResults.length > 0 ? (
+          <div className="grid grid-cols-3 gap-4">
+            {searchResults.map((graph, index) => renderGraph(graph, index))}
+          </div>
+        ) : (
+          <Categories 
+            categories={categories} 
+            handleRemoveWidget={(categoryIndex, graphIndex) => handleRemoveWidget(categoryIndex, graphIndex)}
+            handleOpenDrawer={(categoryName) => handleOpenDrawer(categoryName)}
+          />
+        )}
 
       </div>
       <AddWidget open={open} onOpenChange={setOpen} category={selectedCategory}/>

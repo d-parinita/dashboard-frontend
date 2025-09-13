@@ -51,6 +51,7 @@ const initialState = {
       ],
     },
   ],
+  searchResults: [] 
 };
 
 const widgetsSlice = createSlice({
@@ -77,8 +78,12 @@ const widgetsSlice = createSlice({
         cat.graphs.splice(graphIndex, 1);
       }
     },
+
+    setSearchResults: (state, action) => {
+      state.searchResults = action.payload;  
+    },
   },
 });
 
-export const { addWidget, removeWidget } = widgetsSlice.actions;
+export const { addWidget, removeWidget, setSearchResults } = widgetsSlice.actions;
 export default widgetsSlice.reducer;
