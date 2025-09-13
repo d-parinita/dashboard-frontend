@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from "@/components/ui/button"
 import { Plus, RotateCcw, MoreVertical, Clock } from "lucide-react"
 import Navbar from '../Components/Navbar'
@@ -19,6 +19,8 @@ export default function Page() {
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null)
 
+  const DEFAULT_CATEGORY = "CSPM Executive Dashboard";
+
   const handleRemoveWidget = (categoryIndex, graphIndex) => {
     const categoryName = categories[categoryIndex].category;
     dispatch(
@@ -28,10 +30,15 @@ export default function Page() {
     );
   }
 
-  const handleOpenDrawer = (category) => {
+  const handleOpenDrawer = (category = DEFAULT_CATEGORY) => {
     setSelectedCategory(category)
-    setOpen(true)
   }
+
+  useEffect(() => {
+    if (selectedCategory) {
+      setOpen(true);
+    }
+  }, [selectedCategory]);
 
   const renderGraph = (graph, graphIndex) => {
     switch (graph.type) {

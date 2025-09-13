@@ -53,7 +53,7 @@ export default function AddWidget({ open, onOpenChange, category }) {
 
     defaultData.piechart = randomPie
     defaultData.linegraph = randomLine
-    defaultData.bargraph = randomBar
+    defaultData.bargraph = randomBar    
 
     dispatch(
       addWidget({
